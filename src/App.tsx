@@ -47,14 +47,16 @@ function App() {
           mapRef.current = map;
         }}
         options={{
-          disableDefaultUI: true, // Deaktiviert alle Standard-Buttons
+          disableDefaultUI: true,
           zoomControl: false,
           mapTypeControl: false,
           streetViewControl: false,
           fullscreenControl: false,
           rotateControl: false,
           scaleControl: false,
-          gestureHandling: 'greedy'
+          gestureHandling: 'greedy',         // 🟢 volles Touch-Verhalten (1-Finger-Scroll, 2-Finger-Zoom, Doppeltap)
+          scrollwheel: false,                // 🔴 Mausrad-Zoom deaktiviert (nur Buttons oder Touch)
+          disableDoubleClickZoom: false      // 🟢 Doppelklick/doppeltippen zoomt
         }}
       >
         <div style={{ position: 'absolute', top: 10, left: 10, zIndex: 100 }}>
