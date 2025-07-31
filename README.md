@@ -24,7 +24,7 @@ Dies ist ein minimalistisches, aber leistungsfähiges React-Framework zur Integr
 ## 🚀 Quickstart
 
 ```bash
-git clone https://github.com/mrcocgn/google-maps-demo.git
+git clone https://github.com/mrcocgn/google-maps-framework.git
 cd google-maps-framework
 yarn install
 yarn dev
