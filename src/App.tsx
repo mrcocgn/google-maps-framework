@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { GoogleMap, LoadScript } from '@react-google-maps/api';
+import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 
 import ZoomInButton from './buttons/ZoomInButton';
 import ZoomOutButton from './buttons/ZoomOutButton';
@@ -19,16 +19,19 @@ const defaultCenter = {
 function App() {
   const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
   const [center, setCenter] = useState(defaultCenter);
+  const [userPosition, setUserPosition] = useState<google.maps.LatLngLiteral | null>(null);
   const mapRef = useRef<google.maps.Map | null>(null);
 
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          setCenter({
+          const coords = {
             lat: position.coords.latitude,
             lng: position.coords.longitude
-          });
+          };
+          setCenter(coords);
+          setUserPosition(coords);
         },
         (error) => {
           console.error("Geolocation error:", error);
@@ -54,11 +57,22 @@ function App() {
           fullscreenControl: false,
           rotateControl: false,
           scaleControl: false,
-          gestureHandling: 'greedy',         // 🟢 volles Touch-Verhalten (1-Finger-Scroll, 2-Finger-Zoom, Doppeltap)
-          scrollwheel: false,                // 🔴 Mausrad-Zoom deaktiviert (nur Buttons oder Touch)
-          disableDoubleClickZoom: false      // 🟢 Doppelklick/doppeltippen zoomt
+          gestureHandling: 'greedy',
+          scrollwheel: true,
+          disableDoubleClickZoom: false
         }}
       >
+        {/* ✅ Sichtbarer Marker für Benutzer */}
+        {userPosition && (
+          <Marker
+            position={userPosition}
+            icon={{
+              url: 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+              scaledSize: new window.google.maps.Size(30, 30)
+            }}
+          />
+        )}
+
         <div style={{ position: 'absolute', top: 10, left: 10, zIndex: 100 }}>
           <ZoomInButton mapRef={mapRef} />
           <ZoomOutButton mapRef={mapRef} />
