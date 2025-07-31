@@ -53,7 +53,8 @@ function App() {
           streetViewControl: false,
           fullscreenControl: false,
           rotateControl: false,
-          scaleControl: false
+          scaleControl: false,
+          gestureHandling: 'greedy'
         }}
       >
         <div style={{ position: 'absolute', top: 10, left: 10, zIndex: 100 }}>
